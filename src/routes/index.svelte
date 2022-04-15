@@ -28,6 +28,10 @@
 			<img src="/logo-tiktok.svg" alt="logo tiktok" />
 			<span>Vidéo courte</span>
 		</a>
+		<a href="https://www.linkedin.com/in/julien-prugne/">
+			<img src="/logo-linkedin.svg" alt="logo linkedin" />
+			<span>Linkedin</span>
+		</a>
 	</section>
 </div>
 
