@@ -22,7 +22,6 @@ export const logout = () => {
 };
 
 export const login = async (username: string, password: string) => {
-	console.log('V', import.meta.env.VITE_API_PATH);
 	const response = await fetch(`${variables.apiUrl}/auth/login`, {
 		body: JSON.stringify({
 			username,
@@ -36,10 +35,10 @@ export const login = async (username: string, password: string) => {
 
 	if (response.status === 200) {
 		const json = await response.json();
-
+		console.log('AUTH JSON', json);
 		const authData = {
 			loggedIn: true,
-			accessToken: json.accessToken,
+			accessToken: json.access_token,
 			user: json.user
 		};
 

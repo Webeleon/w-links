@@ -32,6 +32,7 @@
 		min-width: 50vw;
 		min-height: 75vh;
 		border-radius: 8px;
+		color: black;
 
 		display: flex;
 		flex-direction: column;

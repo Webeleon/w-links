@@ -13,3 +13,16 @@
 		<button on:click={logout}>logout</button>
 	{/if}
 </nav>
+
+<style lang="scss">
+	nav {
+		height: 3em;
+		background-color: #82d7c4;
+		border-bottom: 1px solid #c482bf;
+		padding: 0 1em;
+
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+</style>

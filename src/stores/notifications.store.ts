@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export interface Notification {
+export class Notification {
 	time: Date;
 	type: 'error' | 'warning' | 'info';
 	content: string;

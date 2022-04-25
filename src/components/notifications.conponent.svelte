@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import {
 		notificationsStore,
 		deleteNotification,
-		clearAllNotifications
+		clearAllNotifications,
+		Notification
 	} from '../stores/notifications.store';
 	import { fly, fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -11,6 +12,14 @@
 	notificationsStore.subscribe((n) => {
 		notifications = n;
 	});
+
+	setInterval(() => {
+		const nowInMs = Date.now();
+		const clearedNotifications = notifications.filter(
+			(notif: Notification) => notif.time.getTime() + 2000 > nowInMs
+		);
+		notificationsStore.set(clearedNotifications);
+	}, 100);
 </script>
 
 <div class="notifications">
@@ -18,8 +27,9 @@
 		<p
 			class={`notification ${notification.type}`}
 			transition:fly={{ delay: 100, duration: 300, x: 300, y: 0, opacity: 0.5, easing: quintOut }}
+			on:click={() => deleteNotification(notification)}
 		>
-			{notification.content} <span on:click={() => deleteNotification(notification)}>X</span>
+			{notification.content}
 		</p>
 	{/each}
 	{#if notifications.length > 1}
