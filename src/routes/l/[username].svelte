@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { variables } from '../../variables';
-	import { Link } from '../../interfaces/link.interface';
+	import { Link } from '../../dto/link.dto';
 	const baseUrl = variables.apiUrl;
 	export let username;
 	export let links: Link[];

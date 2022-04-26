@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { addNotification } from './notifications.store';
-import { AuthInterface } from '../interfaces/auth.interface';
+import { AuthDto } from '../dto/auth.dto';
 import { clearAuth, getAuth, saveAuth } from '../local-storage/auth.local-storage';
 import { variables } from '../variables';
 
@@ -8,7 +8,7 @@ const loggedOutState = {
 	loggedIn: false
 };
 
-export const authStore = writable<AuthInterface>(loggedOutState);
+export const authStore = writable<AuthDto>(loggedOutState);
 
 export const logout = () => {
 	authStore.set(loggedOutState);
@@ -35,7 +35,6 @@ export const login = async (username: string, password: string) => {
 
 	if (response.status === 200) {
 		const json = await response.json();
-		console.log('AUTH JSON', json);
 		const authData = {
 			loggedIn: true,
 			accessToken: json.access_token,

@@ -8,18 +8,24 @@
 
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { Link } from '../interfaces/link.interface';
+	import { Link } from '../dto/link.dto';
 	import { authStore } from '../stores/auth.store';
-	import { AuthInterface } from '../interfaces/auth.interface';
+	import { AuthDto } from '../dto/auth.dto';
 	import { updateLink } from '../requests/links';
 	import { deleteAndRefresh } from '../stores/links.store';
 	import { debounce } from 'lodash';
+	import { StatsSummaryDto } from '../dto/stats-summary.dto';
+	import { getLinkStatsSummary } from '../requests/statistics';
 
 	export let link: Link;
-	let auth: AuthInterface;
+	let auth: AuthDto;
+	let stats: StatsSummaryDto = {
+		clicks: 0
+	};
 
-	authStore.subscribe((_auth) => {
+	authStore.subscribe(async (_auth) => {
 		auth = _auth;
+		stats = await getLinkStatsSummary(_auth, link.uuid);
 	});
 
 	const debouncedUpdateLink = debounce(
@@ -42,6 +48,9 @@
 	</select>
 	<input type="text" on:change={debouncedUpdateLink} bind:value={link.displayName} />
 	<input type="text" on:change={debouncedUpdateLink} bind:value={link.target} />
+	<p>
+		clicks: {stats.clicks}
+	</p>
 	<div>
 		<button on:click={() => deleteAndRefresh(auth, link.uuid)}>delete</button>
 	</div>

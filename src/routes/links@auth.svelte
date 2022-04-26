@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { authStore } from '../stores/auth.store';
 	import { onMount } from 'svelte';
-	import { Link } from '../interfaces/link.interface';
+	import { Link } from '../dto/link.dto';
 	import LinkCard from '../components/link-card.component.svelte';
-	import { AuthInterface } from '../interfaces/auth.interface';
+	import { AuthDto } from '../dto/auth.dto';
 	import { createDefaultAndRefresh, linksStore, refreshLinks } from '../stores/links.store';
 
 	let links: Link[] = [];
-	let auth: AuthInterface;
+	let auth: AuthDto;
 	let username: string;
 
 	onMount(() => {

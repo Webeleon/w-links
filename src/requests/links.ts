@@ -1,4 +1,4 @@
-import { AuthInterface } from '../interfaces/auth.interface';
+import { AuthDto } from '../dto/auth.dto';
 import { variables } from '../variables';
 import { logout } from '../stores/auth.store';
 import { addNotification } from '../stores/notifications.store';
@@ -26,7 +26,7 @@ export const getPublicUserLinks = async (username: string) => {
 	}
 };
 
-export const getUserLinks = async (auth: AuthInterface) => {
+export const getUserLinks = async (auth: AuthDto) => {
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -56,7 +56,7 @@ export const getUserLinks = async (auth: AuthInterface) => {
 	}
 };
 
-export const deleteLink = async (auth: AuthInterface, uuid: string) => {
+export const deleteLink = async (auth: AuthDto, uuid: string) => {
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -86,7 +86,7 @@ export const deleteLink = async (auth: AuthInterface, uuid: string) => {
 	}
 };
 
-export const createLink = async (auth: AuthInterface, body) => {
+export const createLink = async (auth: AuthDto, body) => {
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -122,7 +122,7 @@ export const createLink = async (auth: AuthInterface, body) => {
 	}
 };
 
-export const updateLink = async (auth: AuthInterface, uuid: string, body) => {
+export const updateLink = async (auth: AuthDto, uuid: string, body) => {
 	if (!auth.loggedIn) {
 		return [];
 	}
