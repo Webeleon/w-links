@@ -2,10 +2,10 @@
 	import { getPublicUserLinks } from '../../requests/links';
 
 	export async function load({ params }) {
-		const links = await getPublicUserLinks(params.username);
+		const links = await getPublicUserLinks(params.uuid);
 		return {
 			props: {
-				username: params.username,
+				uuid: params.uuid,
 				links
 			}
 		};
@@ -16,14 +16,14 @@
 	import { variables } from '../../variables';
 	import { Link } from '../../dto/link.dto';
 	const baseUrl = variables.apiUrl;
-	export let username;
+	export let uuid;
 	export let links: Link[];
 </script>
 
 <div class="app">
 	<header>
 		<img src="/logo-webeleon.png" alt="logo webeleon" />
-		<h1>Liens {username}</h1>
+		<h1>Liens</h1>
 	</header>
 	<section>
 		{#each links as link}

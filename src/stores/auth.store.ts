@@ -3,6 +3,7 @@ import { addNotification } from './notifications.store';
 import { AuthDto } from '../dto/auth.dto';
 import { clearAuth, getAuth, saveAuth } from '../local-storage/auth.local-storage';
 import { variables } from '../variables';
+import { getAuthenticatedUserProfile } from '../requests/profile';
 
 const loggedOutState = {
 	loggedIn: false
@@ -21,10 +22,32 @@ export const logout = () => {
 	});
 };
 
-export const login = async (username: string, password: string) => {
+export const googleLoginSuccess = async (googleUser: any) => {
+	console.log();
+	const authData = {
+		loggedIn: true,
+		user: {
+			username: googleUser.Lu.tf
+		},
+		idToken: googleUser.xc.id_token,
+		accessToken: googleUser.xc.id_token
+	};
+
+	authData.user = await getAuthenticatedUserProfile(authData);
+	saveAuth(authData);
+	authStore.set(authData);
+
+	addNotification({
+		time: new Date(),
+		type: 'info',
+		content: `Welcome back ${authData.user.username}!`
+	});
+};
+
+export const login = async (email: string, password: string) => {
 	const response = await fetch(`${variables.apiUrl}/auth/login`, {
 		body: JSON.stringify({
-			username,
+			email,
 			password
 		}),
 		method: 'POST',

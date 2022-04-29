@@ -23,7 +23,7 @@
 </script>
 
 <div class="container">
-	<h2><a href={`/l/${username}`}>Link page</a></h2>
+	<h2><a href={`/l/${auth?.user?.uuid}`}>Link page</a></h2>
 	<div class="cards">
 		{#each links as link}
 			<LinkCard {link} />
