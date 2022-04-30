@@ -13,9 +13,11 @@
 	import { AuthDto } from '../dto/auth.dto';
 	import { updateLink } from '../requests/links';
 	import { deleteAndRefresh } from '../stores/links.store';
-	import { debounce } from 'lodash';
 	import { StatsSummaryDto } from '../dto/stats-summary.dto';
 	import { getLinkStatsSummary } from '../requests/statistics';
+	import pkg from 'lodash';
+
+	const { debounce } = pkg;
 
 	export let link: Link;
 	let auth: AuthDto;
