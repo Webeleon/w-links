@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { googleLoginSuccess, login } from '../stores/auth.store';
 	import { GoogleAuth } from '@beyonk/svelte-social-auth';
+	import { variables } from '../variables';
 
 	let email;
 	let password;
@@ -21,7 +22,7 @@
 		<button on:click={() => login(email, password)}>Login</button>
 
 		<GoogleAuth
-			clientId="1035799241886-c071l8kgob11it5pueeesqlvo9o0ho4u.apps.googleusercontent.com"
+			clientId={variables.googleClientId}
 			on:auth-success={(e) => onSignIn(e.detail.user)}
 		/>
 	</div>
