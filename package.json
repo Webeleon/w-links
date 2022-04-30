@@ -14,9 +14,11 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@beyonk/svelte-social-auth": "^3.0.0",
     "@playwright/test": "^1.21.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
+    "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "autoprefixer": "^10.4.4",
@@ -35,6 +37,7 @@
   "type": "module",
   "dependencies": {
     "@webeleon/scss-toolkit": "^0.0.3",
+    "lodash": "^4.17.21",
     "node-sass": "^7.0.1",
     "sass": "^1.50.0"
   }
