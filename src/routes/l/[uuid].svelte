@@ -21,10 +21,6 @@
 </script>
 
 <div class="app">
-	<header>
-		<img src="/logo-webeleon.png" alt="logo webeleon" />
-		<h1>Liens</h1>
-	</header>
 	<section>
 		{#each links as link}
 			<a href={`${baseUrl}/links/${link.uuid}`}>
