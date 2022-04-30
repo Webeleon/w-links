@@ -50,14 +50,14 @@
 	}
 
 	.error {
-		background-color: red;
+		background-color: #d77fa1;
 	}
 
 	.warning {
-		background-color: yellow;
+		background-color: #baabda;
 	}
 
 	.info {
-		background-color: blue;
+		background-color: #d6e5fa;
 	}
 </style>
