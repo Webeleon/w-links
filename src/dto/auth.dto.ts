@@ -1,8 +1,7 @@
+import { UserProfileDto } from './user-profile.dto';
+
 export class AuthDto {
 	loggedIn: boolean;
-	user?: {
-		username?: string;
-		uuid?: string;
-	};
+	user?: UserProfileDto;
 	accessToken?: string;
 }
