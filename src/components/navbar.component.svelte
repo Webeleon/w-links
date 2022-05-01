@@ -8,11 +8,19 @@
 	});
 </script>
 
-<nav>
-	{#if loggedIn}
+{#if loggedIn}
+	<nav>
+		<span>
+			<button>
+				<a href="/profile">Profile</a>
+			</button>
+			<button>
+				<a href="/links">Links</a>
+			</button>
+		</span>
 		<button on:click={logout}>logout</button>
-	{/if}
-</nav>
+	</nav>
+{/if}
 
 <style lang="scss">
 	nav {
@@ -23,6 +31,19 @@
 
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: space-between;
+	}
+	button {
+		padding: 0.5em 1em;
+		border: none;
+
+		&:hover {
+			box-shadow: 0 0.5em 0.2em #c482bf;
+		}
+	}
+
+	a {
+		color: #1c2f41;
+		text-decoration: none;
 	}
 </style>

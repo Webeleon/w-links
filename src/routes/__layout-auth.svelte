@@ -15,10 +15,18 @@
 	});
 </script>
 
-<Notifications />
-<Navbar />
-{#if !loggedIn}
-	<Login />
-{:else}
-	<slot />
-{/if}
+<div class="container">
+	<Notifications />
+	{#if !loggedIn}
+		<Login />
+	{:else}
+		<Navbar />
+		<slot />
+	{/if}
+</div>
+
+<style lang="scss">
+	.container {
+		min-height: 100vh;
+	}
+</style>

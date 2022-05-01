@@ -15,9 +15,9 @@
 	import { deleteAndRefresh } from '../stores/links.store';
 	import { StatsSummaryDto } from '../dto/stats-summary.dto';
 	import { getLinkStatsSummary } from '../requests/statistics';
-	import pkg from 'lodash';
+	import _ from 'lodash';
 
-	const { debounce } = pkg;
+	const { debounce } = _;
 
 	export let link: Link;
 	let auth: AuthDto;
