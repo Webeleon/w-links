@@ -3,7 +3,6 @@ import { addNotification } from './notifications.store';
 import { AuthDto } from '../dto/auth.dto';
 import { clearAuth, getAuth, saveAuth } from '../local-storage/auth.local-storage';
 import { variables } from '../variables';
-import { getAuthenticatedUserProfile } from '../requests/profile';
 
 const loggedOutState = {
 	loggedIn: false
@@ -23,24 +22,18 @@ export const logout = () => {
 };
 
 export const googleLoginSuccess = async (googleUser: any) => {
-	console.log();
 	const authData = {
 		loggedIn: true,
-		user: {
-			username: googleUser.Lu.tf
-		},
 		idToken: googleUser.xc.id_token,
 		accessToken: googleUser.xc.id_token
 	};
-
-	authData.user = await getAuthenticatedUserProfile(authData);
+	authStore.update(() => authData);
 	saveAuth(authData);
-	authStore.set(authData);
 
 	addNotification({
 		time: new Date(),
 		type: 'info',
-		content: `Welcome back ${authData.user.username}!`
+		content: `Welcome back!`
 	});
 };
 
@@ -60,18 +53,16 @@ export const login = async (email: string, password: string) => {
 		const json = await response.json();
 		const authData = {
 			loggedIn: true,
-			accessToken: json.access_token,
-			user: json.user
+			accessToken: json.access_token
 		};
 
 		authStore.update(() => authData);
-
 		saveAuth(authData);
 
 		addNotification({
 			time: new Date(),
 			type: 'info',
-			content: `Welcome back ${json.user.username}!`
+			content: `Welcome back!`
 		});
 	} else {
 		addNotification({

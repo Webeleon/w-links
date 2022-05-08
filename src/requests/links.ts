@@ -1,7 +1,8 @@
-import { AuthDto } from '../dto/auth.dto';
 import { variables } from '../variables';
-import { logout } from '../stores/auth.store';
+import { authStore, logout } from '../stores/auth.store';
 import { addNotification } from '../stores/notifications.store';
+import { get } from 'svelte/store';
+import { OrderLinkDto } from '../dto/order-link.dto';
 
 export const getPublicUserLinks = async (username: string) => {
 	const { apiUrl } = variables;
@@ -26,7 +27,8 @@ export const getPublicUserLinks = async (username: string) => {
 	}
 };
 
-export const getUserLinks = async (auth: AuthDto) => {
+export const getUserLinks = async () => {
+	const auth = get(authStore);
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -56,7 +58,8 @@ export const getUserLinks = async (auth: AuthDto) => {
 	}
 };
 
-export const deleteLink = async (auth: AuthDto, uuid: string) => {
+export const deleteLink = async (uuid: string) => {
+	const auth = get(authStore)
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -86,7 +89,8 @@ export const deleteLink = async (auth: AuthDto, uuid: string) => {
 	}
 };
 
-export const createLink = async (auth: AuthDto, body) => {
+export const createLink = async (body) => {
+	const auth = get(authStore);
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -122,7 +126,8 @@ export const createLink = async (auth: AuthDto, body) => {
 	}
 };
 
-export const updateLink = async (auth: AuthDto, uuid: string, body) => {
+export const updateLink = async (uuid: string, body) => {
+	const auth = get(authStore);
 	if (!auth.loggedIn) {
 		return [];
 	}
@@ -146,6 +151,42 @@ export const updateLink = async (auth: AuthDto, uuid: string, body) => {
 			time: new Date(),
 			type: 'info',
 			content: `Link updated`
+		});
+	} else {
+		const data = await response.json();
+		addNotification({
+			time: new Date(),
+			type: 'error',
+			content: `Unexpected error: ${data.message}`
+		});
+	}
+};
+
+export const orderLinks = async (body: OrderLinkDto[]) => {
+	const auth = get(authStore);
+	if (!auth.loggedIn) {
+		return [];
+	}
+
+	const { apiUrl } = variables;
+
+	const response = await fetch(`${apiUrl}/links/manage/order`, {
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: `Bearer ${auth.accessToken}`
+		},
+		method: 'PATCH',
+		body: JSON.stringify(body)
+	});
+
+	if (response.status === 401) {
+		logout();
+	} else if (response.status === 200) {
+		addNotification({
+			time: new Date(),
+			type: 'info',
+			content: `Link reordered`
 		});
 	} else {
 		const data = await response.json();

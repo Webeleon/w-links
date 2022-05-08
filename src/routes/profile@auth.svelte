@@ -1,35 +1,20 @@
 <script lang="ts">
-	import { authStore } from '../stores/auth.store';
-	import { AuthDto } from '../dto/auth.dto';
-	import { onMount } from 'svelte';
 	import { getAuthenticatedUserProfile, updateAuthenticatedUserProfile } from '../requests/profile';
 	import { UserProfileDto } from '../dto/user-profile.dto';
 	import _ from 'lodash';
+	import { profileStore } from '../stores/profile.store';
 
 	const { debounce } = _;
 
-	let auth: AuthDto;
-	let profile: UserProfileDto = {
-		uuid: '',
-		username: '',
-		email: '',
-		password: '',
-		googleId: '',
-		active: false
-	};
+	let profile: UserProfileDto = $profileStore;
 
-	onMount(() => {
-		authStore.subscribe(async (_auth) => {
-			auth = _auth;
-			if (auth.loggedIn) profile = await getAuthenticatedUserProfile(auth);
-		});
-	});
-
-	const debouncedUpdateProfile = debounce(() => updateAuthenticatedUserProfile(auth, profile), 300);
+	const debouncedUpdateProfile = debounce(() => updateAuthenticatedUserProfile(profile), 300);
 	const reset = async () => {
-		profile = auth.user;
-		await updateAuthenticatedUserProfile(auth, profile);
+		await getAuthenticatedUserProfile();
+		await updateAuthenticatedUserProfile(profile);
 	};
+
+	$: profile;
 </script>
 
 <section>

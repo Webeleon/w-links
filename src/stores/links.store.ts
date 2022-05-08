@@ -1,24 +1,23 @@
 import { writable } from 'svelte/store';
 import { Link } from '../dto/link.dto';
 import { createLink, deleteLink, getUserLinks } from '../requests/links';
-import { AuthDto } from '../dto/auth.dto';
 
 export const linksStore = writable<Link[]>([]);
 
-export const refreshLinks = async (auth: AuthDto) => {
-	const links = await getUserLinks(auth);
+export const refreshLinks = async () => {
+	const links = await getUserLinks();
 	linksStore.set(links);
 };
 
-export const deleteAndRefresh = async (auth: AuthDto, uuid: string) => {
-	await deleteLink(auth, uuid);
-	await refreshLinks(auth);
+export const deleteAndRefresh = async (uuid: string) => {
+	await deleteLink(uuid);
+	await refreshLinks();
 };
 
-export const createDefaultAndRefresh = async (auth: AuthDto) => {
-	await createLink(auth, {
+export const createDefaultAndRefresh = async () => {
+	await createLink({
 		displayName: 'change me!',
 		target: 'https://webeleon.dev'
 	});
-	await refreshLinks(auth);
+	await refreshLinks();
 };

@@ -1,10 +1,11 @@
-import { AuthDto } from '../dto/auth.dto';
 import { variables } from '../variables';
-import { logout } from '../stores/auth.store';
+import { authStore, logout } from '../stores/auth.store';
 import { addNotification } from '../stores/notifications.store';
 import { UpdateUserProfileDto } from '../dto/update-user-profile.dto';
+import { get } from 'svelte/store';
 
-export const getAuthenticatedUserProfile = async (auth: AuthDto) => {
+export const getAuthenticatedUserProfile = async () => {
+	const auth = get(authStore);
 	const { apiUrl } = variables;
 
 	const response = await fetch(`${apiUrl}/users/profile`, {
@@ -30,8 +31,9 @@ export const getAuthenticatedUserProfile = async (auth: AuthDto) => {
 	}
 };
 
-export const updateAuthenticatedUserProfile = async (auth: AuthDto, body: UpdateUserProfileDto) => {
+export const updateAuthenticatedUserProfile = async (body: UpdateUserProfileDto) => {
 	const { apiUrl } = variables;
+	const auth = get(authStore);
 
 	const response = await fetch(`${apiUrl}/users/profile`, {
 		headers: {

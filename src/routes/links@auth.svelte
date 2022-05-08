@@ -1,66 +1,102 @@
 <script lang="ts">
-	import { authStore } from '../stores/auth.store';
 	import { onMount } from 'svelte';
 	import { Link } from '../dto/link.dto';
 	import LinkCard from '../components/link-card.component.svelte';
-	import { AuthDto } from '../dto/auth.dto';
-	import { createDefaultAndRefresh, linksStore, refreshLinks } from '../stores/links.store';
+	import {
+	  createDefaultAndRefresh,
+	  linksStore,
+	  refreshLinks,
+	} from '../stores/links.store';
+	import { flip } from 'svelte/animate'
+	import { orderLinks } from '../requests/links';
+	import { profileStore } from '../stores/profile.store';
 
 	let links: Link[] = [];
-	let auth: AuthDto;
-	let username: string;
+	let hovering: number;
 
-	onMount(() => {
-		authStore.subscribe(async (_auth) => {
-			auth = _auth;
-			username = auth.user.username;
-			await refreshLinks(auth);
-		});
-		linksStore.subscribe((_links) => {
+	onMount(async () => {
+		await refreshLinks();
+		linksStore.subscribe(_links => {
 			links = _links;
-		});
+		})
 	});
-</script>
 
-<div class="container">
-	<h2><a href={`/l/${auth?.user?.uuid}`}>Link page</a></h2>
+	const dragStart = (event, target) => {
+	  event.dataTransfer.setData('text/plain', target)
+	}
+
+	const drop = async (event, target) => {
+	  const start = parseInt(event.dataTransfer.getData("text/plain"));
+	  if (start < target) {
+		links.splice(target + 1, 0, links[start]);
+		links.splice(start, 1);
+	  } else {
+		links.splice(target, 0, links[start]);
+		links.splice(start + 1, 1);
+	  }
+
+	  linksStore.set(links)
+	  hovering = null;
+	  await orderLinks(links.map(
+			  (l, idx) => ({
+				  uuid: l.uuid,
+				  order: idx
+			  })
+	  ))
+	}
+  </script>
+
+  <div class="container">
+	<h2><a href={`/l/${$profileStore.uuid}`}>Link page</a></h2>
 	<div class="cards">
-		{#each links as link}
-			<LinkCard {link} />
-		{/each}
-		<span class="add" on:click={() => createDefaultAndRefresh(auth)}>+</span>
+	  {#each links as link, idx (link.uuid)}
+		<div draggable="true"
+		on:dragstart={event => dragStart(event, idx)}
+		on:dragenter={() => hovering = idx}
+		on:drop|preventDefault={event => drop(event, idx)}
+		ondragover="return false"
+		class:is-hovered={idx === hovering}
+		animate:flip={{ duration: 500}}
+		>
+		  <LinkCard {link} />
+		</div>
+	  {/each}
+	  <span class="add" on:click={() => createDefaultAndRefresh()}>+</span>
 	</div>
-</div>
+  </div>
 
-<style lang="scss">
+  <style lang="scss">
 	.container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  flex-direction: column;
 	}
 	a {
-		color: #efefef;
+	  color: #efefef;
 	}
 	.cards {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
+	  display: flex;
+	  flex-wrap: wrap;
+	  align-items: center;
+	  justify-content: center;
 	}
 
 	.add {
-		font-size: 6em;
-		background-color: #82d7c4;
-		padding: 0;
-		border-radius: 100%;
-		border: 2px solid #c482bf;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 1em;
-		&:hover {
-			box-shadow: 0 0 0.2em #c482bf;
-		}
+	  font-size: 6em;
+	  background-color: #82d7c4;
+	  padding: 0;
+	  border-radius: 100%;
+	  border: 2px solid #c482bf;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  width: 1em;
+	  &:hover {
+		box-shadow: 0 0 0.2em #c482bf;
+	  }
 	}
-</style>
+	.is-hovered {
+	  opacity: 0.5;
+	}
+  </style>
