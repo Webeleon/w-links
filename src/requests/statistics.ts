@@ -1,9 +1,10 @@
-import { AuthDto } from '../dto/auth.dto';
 import { variables } from '../variables';
-import { logout } from '../stores/auth.store';
+import { authStore, logout } from '../stores/auth.store';
 import { addNotification } from '../stores/notifications.store';
+import { get } from 'svelte/store';
 
-export const getLinkStatsSummary = async (auth: AuthDto, uuid: string) => {
+export const getLinkStatsSummary = async (uuid: string) => {
+	const auth = get(authStore);
 	if (!auth.loggedIn) {
 		return [];
 	}
