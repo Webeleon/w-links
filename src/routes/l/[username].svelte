@@ -2,10 +2,9 @@
 	import { getPublicUserLinks } from '../../requests/links';
 
 	export async function load({ params }) {
-		const links = await getPublicUserLinks(params.uuid);
+		const links = await getPublicUserLinks(params.username);
 		return {
 			props: {
-				uuid: params.uuid,
 				links
 			}
 		};
@@ -16,8 +15,7 @@
 	import { variables } from '../../variables';
 	import { Link } from '../../dto/link.dto';
 	const baseUrl = variables.apiUrl;
-	export let uuid;
-	export let links: Link[];
+	export let links: Link[] = [];
 </script>
 
 <div class="app">

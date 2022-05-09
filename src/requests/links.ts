@@ -4,10 +4,10 @@ import { addNotification } from '../stores/notifications.store';
 import { get } from 'svelte/store';
 import { OrderLinkDto } from '../dto/order-link.dto';
 
-export const getPublicUserLinks = async (username: string) => {
+export const getPublicUserLinks = async (slug: string) => {
 	const { apiUrl } = variables;
 
-	const response = await fetch(`${apiUrl}/links/public/${username}`, {
+	const response = await fetch(`${apiUrl}/links/public/${slug}`, {
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
@@ -56,10 +56,11 @@ export const getUserLinks = async () => {
 			content: `Unexpected error: ${data.message}`
 		});
 	}
+	return [];
 };
 
 export const deleteLink = async (uuid: string) => {
-	const auth = get(authStore)
+	const auth = get(authStore);
 	if (!auth.loggedIn) {
 		return [];
 	}
