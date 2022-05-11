@@ -49,7 +49,7 @@
   </script>
 
   <div class="container">
-	<h2><a href={`/l/${$profileStore.username}`}>Link page</a></h2>
+	<h2><a href={`/l/${$profileStore?.username}`}>Link page</a></h2>
 	<div class="cards">
 	  {#each links as link, idx (link.uuid)}
 		<div draggable="true"
