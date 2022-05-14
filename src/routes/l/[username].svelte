@@ -42,28 +42,9 @@
 		padding: 2em 0.2em;
 	}
 
-	header {
-		& > img {
-			width: 8em;
-			animation: spin 1s;
-		}
-
-		& > h1 {
-			font-size: 2.5em;
-			color: #efefef;
-		}
-
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-
 	section {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		justify-content: space-between;
 
 		& > a {
 			min-height: 2.5em;
@@ -87,10 +68,13 @@
 			}
 
 			display: flex;
+			align-items: center;
+			justify-content: center;
 			text-decoration: none;
 
 			& > img {
-				max-width: 4em;
+				width: 4em;
+				height: 4em;
 				margin-left: 1em;
 			}
 
