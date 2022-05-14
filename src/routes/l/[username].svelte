@@ -75,7 +75,8 @@
 			& > img {
 				width: 4em;
 				height: 4em;
-				margin-left: 1em;
+				margin: 0 1em;
+				animation: spin 1s;
 			}
 
 			& > span {
@@ -83,6 +84,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				flex-wrap: wrap;
 			}
 
 			animation: fadein 1s;
