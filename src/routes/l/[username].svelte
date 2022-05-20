@@ -29,7 +29,7 @@
 <div class="app" use:cssVariables={theme}>
 	<section>
 		{#each links as link}
-			<a href={`${baseUrl}/links/${link.uuid}`}>
+			<a href={`${baseUrl}/links/${link.uuid}?r=${Date.now()}`}>
 				<img src="/logo-{link.type}.svg" alt="logo {link.type}" />
 				<span>{link.displayName}</span>
 			</a>
