@@ -1,19 +1,22 @@
 <div class="app">
-		<img class="logo" src="/logo-webeleon.png" alt="logo webeleon" />
-		<h1>W links</h1>
-		<h2>an open source link manager for social media respecting users privacy</h2>
-		<p>private alpha, you can contact <a href="mailto:julien@webeleon.dev">julien@webeleon.dev</a> for a test account</p>
-		<p>
-			<a class="github-link" href="https://github.com/Webeleon/w-links-api">
-				<img src="/logo-github.svg" alt="github logo">
-				NestJS api
-			</a>
+	<img class="logo" src="/logo-webeleon.png" alt="logo webeleon" />
+	<h1>W links</h1>
+	<h2>an open source link manager for social media respecting users privacy</h2>
+	<p>
+		private alpha, you can contact <a href="mailto:julien@webeleon.dev">julien@webeleon.dev</a> for a
+		test account
+	</p>
+	<p>
+		<a class="github-link" href="https://github.com/Webeleon/w-links-api">
+			<img src="/logo-github.svg" alt="github logo" />
+			NestJS api
+		</a>
 
-			<a class="github-link" href="https://github.com/Webeleon/w-links">
-				<img src="/logo-github.svg" alt="github logo">
-				Svelte front
-			</a>
-		</p>
+		<a class="github-link" href="https://github.com/Webeleon/w-links">
+			<img src="/logo-github.svg" alt="github logo" />
+			Svelte front
+		</a>
+	</p>
 </div>
 
 <style lang="scss">
@@ -67,7 +70,6 @@
 		align-items: center;
 		justify-content: space-evenly;
 	}
-
 
 	@keyframes spin {
 		from {

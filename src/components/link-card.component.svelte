@@ -25,7 +25,7 @@
 
 	onMount(async () => {
 		stats = await getLinkStatsSummary(link.uuid);
-	})
+	});
 
 	const debouncedUpdateLink = debounce(
 		() =>

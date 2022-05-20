@@ -25,7 +25,6 @@
 	{/if}
 </div>
 
-
 <svelte:head>
 	<title>w-links</title>
 	<meta name="description" content="a link manager for social media respecting users privacy." />

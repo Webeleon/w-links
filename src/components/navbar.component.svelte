@@ -17,6 +17,9 @@
 			<button>
 				<a href="/links">Links</a>
 			</button>
+			<button>
+				<a href="/theme">theme</a>
+			</button>
 		</span>
 		<button on:click={logout}>logout</button>
 	</nav>

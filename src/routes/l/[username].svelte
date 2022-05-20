@@ -1,11 +1,14 @@
 <script context="module" lang="ts">
 	import { getPublicUserLinks } from '../../requests/links';
+	import { getTheme } from '../../requests/theme';
 
 	export async function load({ params }) {
 		const links = await getPublicUserLinks(params.username);
+		const theme = await getTheme(params.username)
 		return {
 			props: {
-				links
+				links,
+				theme
 			}
 		};
 	}
@@ -14,11 +17,16 @@
 <script lang="ts">
 	import { variables } from '../../variables';
 	import { Link } from '../../dto/link.dto';
+	import { ThemeDto } from '../../dto/theme.dto';
+	import { defaultTheme } from '../../themes/default.theme';
+	import { cssVariables } from '../../use/cssVariables';
+
 	const baseUrl = variables.apiUrl;
 	export let links: Link[] = [];
+	export let theme: ThemeDto = defaultTheme;
 </script>
 
-<div class="app">
+<div class="app" use:cssVariables={theme}>
 	<section>
 		{#each links as link}
 			<a href={`${baseUrl}/links/${link.uuid}`}>
@@ -40,6 +48,7 @@
 		flex-direction: column;
 		align-items: center;
 		padding: 2em 0.2em;
+		background-color: var(--backgroundColor);
 	}
 
 	section {
@@ -53,16 +62,17 @@
 				width: 90vw;
 			}
 
-			border: 2px solid #c482bf;
+			border: 2px solid var(--linkBorderColor);
 			border-radius: 8px;
 			&:hover {
-				box-shadow: 0 0 1em #c482bf;
+				box-shadow: 0 0 1em var(--linkBorderColor);
 			}
 
 			margin: 0.5em;
-			background-color: #82d7c4;
+			background-color: var(--linkBackgroundColor);
 			height: 5em;
 			font-size: 2em;
+			color: var(--linkTextColor);
 			@include mobile {
 				font-size: 1.5em;
 			}
