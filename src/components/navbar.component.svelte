@@ -11,15 +11,21 @@
 {#if loggedIn}
 	<nav>
 		<span>
-			<button>
-				<a href="/profile">Profile</a>
-			</button>
-			<button>
-				<a href="/links">Links</a>
-			</button>
-			<button>
-				<a href="/theme">theme</a>
-			</button>
+			<a href="/profile">
+				<button>
+					Profile
+				</button>
+			</a>
+			<a href="/links">
+				<button>
+					Links
+				</button>
+			</a>
+			<a href="/theme">
+				<button>
+					Theme
+				</button>
+			</a>
 		</span>
 		<button on:click={logout}>logout</button>
 	</nav>
@@ -39,6 +45,7 @@
 	button {
 		padding: 0.5em 1em;
 		border: none;
+		cursor: pointer;
 
 		&:hover {
 			box-shadow: 0 0.5em 0.2em #c482bf;
