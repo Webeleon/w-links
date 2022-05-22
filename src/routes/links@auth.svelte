@@ -1,3 +1,15 @@
+<script context="module" lang="ts">
+	import { getLinkTypes } from '../requests/link-types';
+
+	export async function load() {
+		return {
+			props: {
+				linkTypes: await getLinkTypes()
+			}
+		}
+	}
+</script>
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Link } from '../dto/link.dto';
@@ -7,6 +19,7 @@
 	import { orderLinks } from '../requests/links';
 	import { profileStore } from '../stores/profile.store';
 
+	export let linkTypes;
 	let links: Link[] = [];
 	let hovering: number;
 
@@ -57,7 +70,7 @@
 				class:is-hovered={idx === hovering}
 				animate:flip={{ duration: 500 }}
 			>
-				<LinkCard {link} />
+				<LinkCard {link} {linkTypes}/>
 			</div>
 		{/each}
 		<span class="add" on:click={() => createDefaultAndRefresh()}>+</span>

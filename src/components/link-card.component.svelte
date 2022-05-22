@@ -1,10 +1,4 @@
-<script context="module" lang="ts">
-	import { linkTypesStore } from '../stores/link-types.store';
-	let linkTypes;
-	linkTypesStore.subscribe((l) => {
-		linkTypes = l;
-	});
-</script>
+
 
 <script lang="ts">
 	import { fade } from 'svelte/transition';
@@ -19,6 +13,7 @@
 	const { debounce } = _;
 
 	export let link: Link;
+	export let linkTypes;
 	let stats: StatsSummaryDto = {
 		clicks: 0
 	};

@@ -3,6 +3,8 @@ import { addNotification } from '../stores/notifications.store';
 import { get } from 'svelte/store';
 import { authStore, logout } from '../stores/auth.store';
 import { ThemeDto } from '../dto/theme.dto';
+import { getAuthenticatedUserProfile } from './profile';
+import { defaultTheme } from '../themes/default.theme';
 
 export const getTheme = async (slug: string) => {
 	const { apiUrl } = variables;
@@ -27,6 +29,34 @@ export const getTheme = async (slug: string) => {
 	}
 };
 
+export const getUserTheme = async () => {
+	const profile = await getAuthenticatedUserProfile();
+
+	const { apiUrl } = variables;
+
+	const response = await fetch(`${apiUrl}/themes/${profile.username}`, {
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		method: 'GET'
+	});
+	const data = await response.json();
+
+	if (response.status === 401) {
+		logout();
+	} else if (response.status === 200) {
+		return data;
+	} else {
+		addNotification({
+			time: new Date(),
+			type: 'error',
+			content: `Unexpected error: ${data.message}`
+		});
+		return defaultTheme;
+	}
+};
+
 export const updateTheme = async (theme: ThemeDto) => {
 	const auth = get(authStore);
 	if (!auth.loggedIn) {
@@ -44,23 +74,21 @@ export const updateTheme = async (theme: ThemeDto) => {
 		method: 'PUT',
 		body: JSON.stringify(theme)
 	});
-	const data = await response.json();
 
 	if (response.status === 401) {
 		logout();
-	} else if (response.status === 200) {
+	} else if (response.ok) {
 		addNotification({
 			time: new Date(),
 			type: 'info',
 			content: `theme updated`
 		});
-		return data;
 	} else {
+		const data = await response.json();
 		addNotification({
 			time: new Date(),
 			type: 'error',
 			content: `Unexpected error: ${data.message}`
 		});
 	}
-	return [];
 };

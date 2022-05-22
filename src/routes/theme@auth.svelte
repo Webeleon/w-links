@@ -1,18 +1,26 @@
 <script context="module" lang="ts">
-	import { linkTypesStore } from '../stores/link-types.store';
-	let linkTypes;
-	linkTypesStore.subscribe((l) => {
-		linkTypes = l;
-	});
+    import { getLinkTypes } from '../requests/link-types';
+
+    export async function load() {
+      return {
+        props: {
+          linkTypes: await getLinkTypes()
+        }
+      }
+    }
 </script>
 
 <script lang="ts">
 	import { cssVariables } from '../use/cssVariables';
-    import { themeStore } from '../stores/theme.store';
-    import { updateTheme } from "../requests/theme";
+    import { getUserTheme, updateTheme } from '../requests/theme';
+    import { defaultTheme } from '../themes/default.theme';
+    import { onMount } from 'svelte';
 
-    const theme = $themeStore;
-
+    export let linkTypes;
+    let theme = defaultTheme;
+    onMount(async () => {
+      theme = await getUserTheme()
+    })
 </script>
 
 <section class="theme-editor">
